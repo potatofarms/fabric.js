@@ -581,42 +581,46 @@
      * @return {Object} .x width dimension
      * @return {Object} .y height dimension
      */
-    _getTransformedDimensions: function(skewX, skewY) {
-      if (typeof skewX === 'undefined') {
-        skewX = this.skewX;
-      }
-      if (typeof skewY === 'undefined') {
-        skewY = this.skewY;
-      }
-      var dimensions = this._getNonTransformedDimensions();
-      if (skewX === 0 && skewY === 0) {
-        return { x: dimensions.x * this.scaleX, y: dimensions.y * this.scaleY };
-      }
-      var dimX = dimensions.x / 2, dimY = dimensions.y / 2,
-          points = [
-            {
-              x: -dimX,
-              y: -dimY
-            },
-            {
-              x: dimX,
-              y: -dimY
-            },
-            {
-              x: -dimX,
-              y: dimY
-            },
-            {
-              x: dimX,
-              y: dimY
-            }],
-          i, transformMatrix = this._calcDimensionsTransformMatrix(skewX, skewY, false),
-          bbox;
-      for (i = 0; i < points.length; i++) {
-        points[i] = fabric.util.transformPoint(points[i], transformMatrix);
-      }
-      bbox = fabric.util.makeBoundingBoxFromPoints(points);
-      return { x: bbox.width, y: bbox.height };
+    _getTransformedDimensions: function (skewX, skewY) {
+        if (typeof skewX === 'undefined') {
+          skewX = this.skewX;
+        }
+        if (typeof skewY === 'undefined') {
+          skewY = this.skewY;
+        }
+  
+        var dimensions = this._getNonTransformedDimensions();
+        if (skewX === 0 && skewY === 0) {
+          return {
+            x: (dimensions.x * this.scaleX) - (this.strokeWidth * this.scaleX) + this.strokeWidth,
+            y: (dimensions.y * this.scaleY) - (this.strokeWidth * this.scaleY) + this.strokeWidth
+          };
+        }
+        var dimX = dimensions.x / 2, dimY = dimensions.y / 2,
+            points = [
+              {
+                x: -dimX,
+                y: -dimY
+              },
+              {
+                x: dimX,
+                y: -dimY
+              },
+              {
+                x: -dimX,
+                y: dimY
+              },
+              {
+                x: dimX,
+                y: dimY
+              }],
+            transformMatrix = this._calcDimensionsTransformMatrix(skewX, skewY, false);
+        var bbox, i;
+        for (i = 0; i < points.length; i++) {
+          points[i] = fabric.util.transformPoint(points[i], transformMatrix);
+        }
+        bbox = fabric.util.makeBoundingBoxFromPoints(points);
+        return { x: bbox.width, y: bbox.height };
     },
 
     /*

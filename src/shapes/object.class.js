@@ -1332,21 +1332,45 @@
       ctx.restore();
     },
 
-    _renderStroke: function(ctx) {
-      if (!this.stroke || this.strokeWidth === 0) {
-        return;
-      }
-
-      if (this.shadow && !this.shadow.affectStroke) {
-        this._removeShadow(ctx);
-      }
-
-      ctx.save();
-      this._setLineDash(ctx, this.strokeDashArray, this._renderDashedStroke);
-      this._applyPatternGradientTransform(ctx, this.stroke);
-      ctx.stroke();
-      ctx.restore();
-    },
+    _renderStroke: function (ctx) {
+        if (!this.stroke || this.strokeWidth === 0) {
+          return;
+        }
+        if (this.shadow && !this.shadow.affectStroke) {
+          this._removeShadow(ctx);
+        }
+        ctx.save();
+        ctx.scale(1 / this.scaleX, 1 / this.scaleY);
+        this._setLineDash(ctx, this.strokeDashArray, this._renderDashedStroke);
+        this._applyPatternGradientTransform(ctx, this.stroke);
+        ctx.stroke();
+        ctx.restore();
+      },
+  
+      _repositionLabel: function () {
+        var objects = this._objects || [this];
+  
+        for (var i = 0; i < objects.length; i++) {
+          var obj = objects[i];
+          var dim = obj._getTransformedDimensions();
+          if (obj.properties) {
+            if (obj.properties.label) {
+              var label = obj.properties.label;
+              if (objects.length > 1) {
+                var thisdim = this._getTransformedDimensions();
+                label.set('left', obj.get('left')
+                                  + ((dim.x - label.width) / 2) + this.get('left') + (thisdim.x / 2));
+                label.set('top', obj.get('top')
+                                  + ((dim.y - label.height) / 2) + this.get('top') + (thisdim.y / 2));
+              }
+              else {
+                label.set('left', obj.get('left') + ((dim.x - label.width) / 2));
+                label.set('top', obj.get('top') + ((dim.y - label.height) / 2));
+              }
+            }
+          }
+        }
+      },
 
     /**
      * This function is an helper for svg import. it returns the center of the object in the svg
