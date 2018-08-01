@@ -59,9 +59,9 @@ fabric.Collection = {
    * @return {Self} thisArg
    * @chainable
    */
-  remove: function() {
+  remove: function () {
     var objects = this.getObjects(),
-        index, somethingRemoved = false;
+      index, somethingRemoved = false;
 
     for (var i = 0, length = arguments.length; i < length; i++) {
       index = objects.indexOf(arguments[i]);
@@ -90,7 +90,7 @@ fabric.Collection = {
    * @return {Self} thisArg
    * @chainable
    */
-  forEachObject: function(callback, context) {
+  forEachObject: function (callback, context) {
     var objects = this.getObjects();
     for (var i = 0, len = objects.length; i < len; i++) {
       callback.call(context, objects[i], i, objects);
@@ -104,13 +104,30 @@ fabric.Collection = {
    * @param {String} [type] When specified, only objects of this type are returned
    * @return {Array}
    */
-  getObjects: function(type) {
+  getObjects: function (type) {
     if (typeof type === 'undefined') {
       return this._objects;
     }
-    return this._objects.filter(function(o) {
+    return this._objects.filter(function (o) {
       return o.type === type;
     });
+  },
+
+  /**
+   * Returns an object with specified id.
+   * @param {Number} [id] Only the unique object with this id is returned.
+   * @return {fabric.Object}
+   */
+  getObjectById: function (id) {
+    var objects = this.getObjects();
+    for (var i = 0; i < objects.length; i++) {
+      var obj = objects[i];
+      var oid = obj.properties.id || null;
+      if (oid === id) {
+        return obj;
+      }
+    }
+    return null;
   },
 
   /**
@@ -134,7 +151,7 @@ fabric.Collection = {
    * Returns a size of a collection (i.e: length of an array containing its objects)
    * @return {Number} Collection size
    */
-  size: function() {
+  size: function () {
     return this.getObjects().length;
   },
 
@@ -143,7 +160,7 @@ fabric.Collection = {
    * @param {Object} object Object to check against
    * @return {Boolean} `true` if collection contains an object
    */
-  contains: function(object) {
+  contains: function (object) {
     return this.getObjects().indexOf(object) > -1;
   },
 
