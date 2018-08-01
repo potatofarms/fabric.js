@@ -63,6 +63,22 @@
     type: 'object',
 
     /**
+     * Object custom properties.
+     * @type Object
+     * @default
+     */
+    properties: {
+
+      /**
+       * Object identifier.
+       * @type Number
+       * @default
+       */
+      id: null
+
+    },
+
+    /**
      * Horizontal origin of transformation of an object (one of "left", "right", "center")
      * See http://jsfiddle.net/1ow02gea/244/ on how originX/originY affect objects in groups
      * @type String

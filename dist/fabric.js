@@ -411,6 +411,7 @@ fabric.Collection = {
     var objects = this.getObjects();
     for (var i = 0; i < objects.length; i++) {
       var obj = objects[i];
+      console.log(obj);
       var oid = obj.properties.id || null;
       if (oid === id) {
         return obj;
@@ -12269,6 +12270,22 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
      * @default
      */
     type: 'object',
+
+    /**
+     * Object custom properties.
+     * @type Object
+     * @default
+     */
+    properties: {
+
+      /**
+       * Object identifier.
+       * @type Number
+       * @default
+       */
+      id: null
+
+    },
 
     /**
      * Horizontal origin of transformation of an object (one of "left", "right", "center")
