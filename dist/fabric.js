@@ -15208,6 +15208,41 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
     },
 
     /**
+     * Returns transform-string for svg-export WITHOUT the scale option.
+     * @return {String}
+     */
+    getSvgTransformNoScale: function() {
+        var angle = this.angle,
+            skewX = (this.skewX % 360),
+            skewY = (this.skewY % 360),
+            center = this.getCenterPoint(),
+  
+            NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS,
+  
+            translatePart = 'translate(' +
+                              toFixed(center.x, NUM_FRACTION_DIGITS) +
+                              ' ' +
+                              toFixed(center.y, NUM_FRACTION_DIGITS) +
+                            ')',
+  
+            anglePart = angle !== 0
+              ? (' rotate(' + toFixed(angle, NUM_FRACTION_DIGITS) + ')')
+              : '',
+  
+            skewXPart = skewX !== 0 ? ' skewX(' + toFixed(skewX, NUM_FRACTION_DIGITS) + ')' : '',
+  
+            skewYPart = skewY !== 0 ? ' skewY(' + toFixed(skewY, NUM_FRACTION_DIGITS) + ')' : '',
+  
+            flipXPart = this.flipX ? ' matrix(-1 0 0 1 0 0) ' : '',
+  
+            flipYPart = this.flipY ? ' matrix(1 0 0 -1 0 0)' : '';
+  
+        return [
+          translatePart, anglePart, flipXPart, flipYPart, skewXPart, skewYPart
+        ].join('');
+      },
+
+    /**
      * Returns transform-string for svg-export from the transform matrix of single elements
      * @return {String}
      */
@@ -17046,37 +17081,6 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
       return reviver ? reviver(markup.join('')) : markup.join('');
     },
-
-    getSvgTransformNoScale: function() {
-      var angle = this.angle,
-          skewX = (this.skewX % 360),
-          skewY = (this.skewY % 360),
-          center = this.getCenterPoint(),
-
-          NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS,
-
-          translatePart = 'translate(' +
-                            toFixed(center.x, NUM_FRACTION_DIGITS) +
-                            ' ' +
-                            toFixed(center.y, NUM_FRACTION_DIGITS) +
-                          ')',
-
-          anglePart = angle !== 0
-            ? (' rotate(' + toFixed(angle, NUM_FRACTION_DIGITS) + ')')
-            : '',
-
-          skewXPart = skewX !== 0 ? ' skewX(' + toFixed(skewX, NUM_FRACTION_DIGITS) + ')' : '',
-
-          skewYPart = skewY !== 0 ? ' skewY(' + toFixed(skewY, NUM_FRACTION_DIGITS) + ')' : '',
-
-          flipXPart = this.flipX ? ' matrix(-1 0 0 1 0 0) ' : '',
-
-          flipYPart = this.flipY ? ' matrix(1 0 0 -1 0 0)' : '';
-
-      return [
-        translatePart, anglePart, flipXPart, flipYPart, skewXPart, skewYPart
-      ].join('');
-    }
     /* _TO_SVG_END_ */
   });
 
