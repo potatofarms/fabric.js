@@ -148,20 +148,52 @@
      * @return {String} svg representation of an instance
      */
     toSVG: function(reviver) {
-      var markup = this._createBaseSVGMarkup(), x = -this.width / 2, y = -this.height / 2;
+      var dim = this._getTransformedDimensions();
+      var markup = this._createBaseSVGMarkup(), x = -dim.x / 2, y = -dim.y / 2;
       markup.push(
         '<rect ', this.getSvgId(),
         'x="', x, '" y="', y,
         '" rx="', this.get('rx'), '" ry="', this.get('ry'),
         '" width="', this.width, '" height="', this.height,
         '" style="', this.getSvgStyles(),
-        '" transform="', this.getSvgTransform(),
+        '" transform="', this.getSvgTransformNoScale(),
         this.getSvgTransformMatrix(), '"',
         this.addPaintOrder(),
         '/>\n');
 
       return reviver ? reviver(markup.join('')) : markup.join('');
     },
+
+    getSvgTransformNoScale: function() {
+      var angle = this.angle,
+          skewX = (this.skewX % 360),
+          skewY = (this.skewY % 360),
+          center = this.getCenterPoint(),
+
+          NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS,
+
+          translatePart = 'translate(' +
+                            toFixed(center.x, NUM_FRACTION_DIGITS) +
+                            ' ' +
+                            toFixed(center.y, NUM_FRACTION_DIGITS) +
+                          ')',
+
+          anglePart = angle !== 0
+            ? (' rotate(' + toFixed(angle, NUM_FRACTION_DIGITS) + ')')
+            : '',
+
+          skewXPart = skewX !== 0 ? ' skewX(' + toFixed(skewX, NUM_FRACTION_DIGITS) + ')' : '',
+
+          skewYPart = skewY !== 0 ? ' skewY(' + toFixed(skewY, NUM_FRACTION_DIGITS) + ')' : '',
+
+          flipXPart = this.flipX ? ' matrix(-1 0 0 1 0 0) ' : '',
+
+          flipYPart = this.flipY ? ' matrix(1 0 0 -1 0 0)' : '';
+
+      return [
+        translatePart, anglePart, flipXPart, flipYPart, skewXPart, skewYPart
+      ].join('');
+    }
     /* _TO_SVG_END_ */
   });
 
