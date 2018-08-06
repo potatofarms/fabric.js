@@ -154,7 +154,7 @@
         '<rect ', this.getSvgId(),
         'x="', x, '" y="', y,
         '" rx="', this.get('rx'), '" ry="', this.get('ry'),
-        '" width="', this.width, '" height="', this.height,
+        '" width="', dim.x, '" height="', dim.y,
         '" style="', this.getSvgStyles(),
         '" transform="', this.getSvgTransformNoScale(),
         this.getSvgTransformMatrix(), '"',
