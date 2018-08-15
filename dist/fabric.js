@@ -311,7 +311,7 @@ fabric.Collection = {
     if (this._onObjectAdded) {
       for (var i = 0, length = arguments.length; i < length; i++) {
         this._onObjectAdded(arguments[i]);
-        console.log('object added', arguments[i]);
+        console.log('object added', arguments[i].hasOwnProperty('properties'));
       }
     }
     this.renderOnAddRemove && this.requestRenderAll();
