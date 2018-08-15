@@ -363,6 +363,7 @@ fabric.Collection = {
         somethingRemoved = true;
         objects.splice(index, 1);
         this._onObjectRemoved && this._onObjectRemoved(arguments[i]);
+        // separate event for non-text and non-gridline objects.
         this._onObjectDestroyed && this._onObjectDestroyed(arguments[i]);
       }
     }
