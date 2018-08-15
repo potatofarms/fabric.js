@@ -25,7 +25,7 @@ fabric.Collection = {
         if (arguments[i].hasOwnProperty('properties')
           && !arguments[i].hasOwnProperty('gridLine')) {
           // make sure it has properties, and don't fire event if it's a gridLine.
-          this._fire('created');
+          this._fire('created', arguments[i]);
         }
       }
     }
