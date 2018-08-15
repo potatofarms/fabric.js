@@ -311,7 +311,11 @@ fabric.Collection = {
     if (this._onObjectAdded) {
       for (var i = 0, length = arguments.length; i < length; i++) {
         this._onObjectAdded(arguments[i]);
-        console.log('object added', arguments[i].hasOwnProperty('properties'));
+        if (arguments[i].hasOwnProperty('properties')
+          && arguments[i].hasOwnProperty('gridLine')) {
+          // make sure it has properties, and don't fire event if it's a gridLine.
+          console.log(this._fire);
+        }
       }
     }
     this.renderOnAddRemove && this.requestRenderAll();
