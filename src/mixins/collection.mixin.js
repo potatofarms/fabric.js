@@ -21,7 +21,10 @@ fabric.Collection = {
     this._objects.push.apply(this._objects, arguments);
     if (this._onObjectAdded) {
       for (var i = 0, length = arguments.length; i < length; i++) {
+        // all objects
         this._onObjectAdded(arguments[i]);
+        // separate 'object:created' event for non-text and non-gridlines.
+        this._onObjectCreated(arguments[i]);
       }
     }
     this.renderOnAddRemove && this.requestRenderAll();
@@ -71,6 +74,7 @@ fabric.Collection = {
         somethingRemoved = true;
         objects.splice(index, 1);
         this._onObjectRemoved && this._onObjectRemoved(arguments[i]);
+        this._onObjectDestroyed && this._onObjectDestroyed(arguments[i]);
       }
     }
 

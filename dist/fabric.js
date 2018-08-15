@@ -310,7 +310,10 @@ fabric.Collection = {
     this._objects.push.apply(this._objects, arguments);
     if (this._onObjectAdded) {
       for (var i = 0, length = arguments.length; i < length; i++) {
+        // all objects
         this._onObjectAdded(arguments[i]);
+        // separate 'object:created' event for non-text and non-gridlines.
+        this._onObjectCreated(arguments[i]);
       }
     }
     this.renderOnAddRemove && this.requestRenderAll();
@@ -360,6 +363,7 @@ fabric.Collection = {
         somethingRemoved = true;
         objects.splice(index, 1);
         this._onObjectRemoved && this._onObjectRemoved(arguments[i]);
+        this._onObjectDestroyed && this._onObjectDestroyed(arguments[i]);
       }
     }
 
@@ -7181,11 +7185,18 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
       obj.setCoords();
       this.fire('object:added', { target: obj });
       obj.fire('added');
+    },
 
+    /**
+     * @private
+     * @param {fabric.Object} obj Object that was added
+     */
+    _onObjectCreated: function (obj) {
+      // make sure it has properties, and don't fire event if it's a gridLine or text.
       if (obj.hasOwnProperty('properties')
-        && !obj.hasOwnProperty('gridLine')) {
-        // make sure it has properties, and don't fire event if it's a gridLine.
-        this._fire('modified', { target: obj });
+        && !obj.hasOwnProperty('gridLine')
+        && !obj.hasOwnProperty('text')) {
+        this._fire('object:created', { target: obj });
         obj.fire('created');
       }
     },
@@ -7198,6 +7209,20 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
       this.fire('object:removed', { target: obj });
       obj.fire('removed');
       delete obj.canvas;
+    },
+
+    /**
+     * @private
+     * @param {fabric.Object} obj Object that was removed
+     */
+    _onObjectDestroyed: function (obj) {
+      // make sure it has properties, and don't fire event if it's a gridLine or text.
+      if (obj.hasOwnProperty('properties')
+        && !obj.hasOwnProperty('gridLine')
+        && !obj.hasOwnProperty('text')) {
+        this._fire('object:destroyed', { target: obj });
+        obj.fire('destroyed');
+      }
     },
 
     /**
