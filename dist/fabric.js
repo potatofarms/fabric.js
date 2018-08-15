@@ -312,7 +312,7 @@ fabric.Collection = {
       for (var i = 0, length = arguments.length; i < length; i++) {
         this._onObjectAdded(arguments[i]);
         if (arguments[i].hasOwnProperty('properties')
-          && arguments[i].hasOwnProperty('gridLine')) {
+          && !arguments[i].hasOwnProperty('gridLine')) {
           // make sure it has properties, and don't fire event if it's a gridLine.
           console.log(this._fire);
         }
