@@ -311,12 +311,6 @@ fabric.Collection = {
     if (this._onObjectAdded) {
       for (var i = 0, length = arguments.length; i < length; i++) {
         this._onObjectAdded(arguments[i]);
-        if (arguments[i].hasOwnProperty('properties')
-          && !arguments[i].hasOwnProperty('gridLine')) {
-          // make sure it has properties, and don't fire event if it's a gridLine.
-          console.log(this._fire);
-          this._fire('modified', arguments[i]);
-        }
       }
     }
     this.renderOnAddRemove && this.requestRenderAll();
@@ -6425,13 +6419,13 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
 
   // aliases for faster resolution
   var extend = fabric.util.object.extend,
-      getElementOffset = fabric.util.getElementOffset,
-      removeFromArray = fabric.util.removeFromArray,
-      toFixed = fabric.util.toFixed,
-      transformPoint = fabric.util.transformPoint,
-      invertTransform = fabric.util.invertTransform,
+    getElementOffset = fabric.util.getElementOffset,
+    removeFromArray = fabric.util.removeFromArray,
+    toFixed = fabric.util.toFixed,
+    transformPoint = fabric.util.transformPoint,
+    invertTransform = fabric.util.invertTransform,
 
-      CANVAS_INIT_ERROR = new Error('Could not initialize `canvas` element');
+    CANVAS_INIT_ERROR = new Error('Could not initialize `canvas` element');
 
   /**
    * Static canvas class
@@ -6454,8 +6448,8 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @param {Object} [options] Options object
      * @return {Object} thisArg
      */
-    initialize: function(el, options) {
-      options || (options = { });
+    initialize: function (el, options) {
+      options || (options = {});
       this.renderAndResetBound = this.renderAndReset.bind(this);
       this.requestRenderAllBound = this.requestRenderAll.bind(this);
       this._initStatic(el, options);
@@ -6604,7 +6598,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * The coordinates get updated with @method calcViewportBoundaries.
      * @memberOf fabric.StaticCanvas.prototype
      */
-    vptCoords: { },
+    vptCoords: {},
 
     /**
      * Based on vptCoords and object.aCoords, skip rendering of objects that
@@ -6623,7 +6617,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @param {HTMLElement | String} el &lt;canvas> element to initialize instance on
      * @param {Object} [options] Options object
      */
-    _initStatic: function(el, options) {
+    _initStatic: function (el, options) {
       var cb = this.requestRenderAllBound;
       this._objects = [];
       this._createLowerCanvas(el);
@@ -6652,7 +6646,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _isRetinaScaling: function() {
+    _isRetinaScaling: function () {
       return (fabric.devicePixelRatio !== 1 && this.enableRetinaScaling);
     },
 
@@ -6660,14 +6654,14 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @private
      * @return {Number} retinaScaling if applied, otherwise 1;
      */
-    getRetinaScaling: function() {
+    getRetinaScaling: function () {
       return this._isRetinaScaling() ? fabric.devicePixelRatio : 1;
     },
 
     /**
      * @private
      */
-    _initRetinaScaling: function() {
+    _initRetinaScaling: function () {
       if (!this._isRetinaScaling()) {
         return;
       }
@@ -6811,7 +6805,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      *   offsetY: 100
      * }, canvas.renderAll.bind(canvas));
      */
-    setOverlayColor: function(overlayColor, callback) {
+    setOverlayColor: function (overlayColor, callback) {
       return this.__setBgOverlayColor('overlayColor', overlayColor, callback);
     },
 
@@ -6836,7 +6830,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      *   offsetY: 100
      * }, canvas.renderAll.bind(canvas));
      */
-    setBackgroundColor: function(backgroundColor, callback) {
+    setBackgroundColor: function (backgroundColor, callback) {
       return this.__setBgOverlayColor('backgroundColor', backgroundColor, callback);
     },
 
@@ -6844,7 +6838,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @private
      * @see {@link http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#dom-context-2d-imagesmoothingenabled|WhatWG Canvas Standard}
      */
-    _setImageSmoothing: function() {
+    _setImageSmoothing: function () {
       var ctx = this.getContext();
 
       ctx.imageSmoothingEnabled = ctx.imageSmoothingEnabled || ctx.webkitImageSmoothingEnabled
@@ -6860,9 +6854,9 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @param {Function} callback Callback to invoke when image is loaded and set as background or overlay
      * @param {Object} [options] Optional options to set for the {@link fabric.Image|image}.
      */
-    __setBgOverlayImage: function(property, image, callback, options) {
+    __setBgOverlayImage: function (property, image, callback, options) {
       if (typeof image === 'string') {
-        fabric.util.loadImage(image, function(img) {
+        fabric.util.loadImage(image, function (img) {
           img && (this[property] = new fabric.Image(img, options));
           callback && callback(img);
         }, this, options && options.crossOrigin);
@@ -6883,7 +6877,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @param {(Object|String|null)} color Object with pattern information, color value or null
      * @param {Function} [callback] Callback is invoked when color is set
      */
-    __setBgOverlayColor: function(property, color, callback) {
+    __setBgOverlayColor: function (property, color, callback) {
       this[property] = color;
       this._initGradient(color, property);
       this._initPattern(color, property, callback);
@@ -6893,13 +6887,13 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _createCanvasElement: function() {
+    _createCanvasElement: function () {
       var element = fabric.util.createCanvasElement();
       if (!element) {
         throw CANVAS_INIT_ERROR;
       }
       if (!element.style) {
-        element.style = { };
+        element.style = {};
       }
       if (typeof element.getContext === 'undefined') {
         throw CANVAS_INIT_ERROR;
@@ -7181,19 +7175,26 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @private
      * @param {fabric.Object} obj Object that was added
      */
-    _onObjectAdded: function(obj) {
+    _onObjectAdded: function (obj) {
       this.stateful && obj.setupState();
       obj._set('canvas', this);
       obj.setCoords();
       this.fire('object:added', { target: obj });
       obj.fire('added');
+
+      if (obj.hasOwnProperty('properties')
+        && !obj.hasOwnProperty('gridLine')) {
+        // make sure it has properties, and don't fire event if it's a gridLine.
+        this._fire('modified', { target: obj });
+        obj.fire('created');
+      }
     },
 
     /**
      * @private
      * @param {fabric.Object} obj Object that was removed
      */
-    _onObjectRemoved: function(obj) {
+    _onObjectRemoved: function (obj) {
       this.fire('object:removed', { target: obj });
       obj.fire('removed');
       delete obj.canvas;
@@ -7205,7 +7206,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Canvas} thisArg
      * @chainable
      */
-    clearContext: function(ctx) {
+    clearContext: function (ctx) {
       ctx.clearRect(0, 0, this.width, this.height);
       return this;
     },
@@ -7257,7 +7258,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Canvas} instance
      * @chainable
      */
-    renderAndReset: function() {
+    renderAndReset: function () {
       this.isRendering = 0;
       this.renderAll();
     },
@@ -7282,9 +7283,9 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {Object} points.tl
      * @chainable
      */
-    calcViewportBoundaries: function() {
-      var points = { }, width = this.width, height = this.height,
-          iVpt = invertTransform(this.viewportTransform);
+    calcViewportBoundaries: function () {
+      var points = {}, width = this.width, height = this.height,
+        iVpt = invertTransform(this.viewportTransform);
       points.tl = transformPoint({ x: 0, y: 0 }, iVpt);
       points.br = transformPoint({ x: width, y: height }, iVpt);
       points.tr = new fabric.Point(points.br.x, points.tl.y);
@@ -7300,7 +7301,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Canvas} instance
      * @chainable
      */
-    renderCanvas: function(ctx, objects) {
+    renderCanvas: function (ctx, objects) {
       var v = this.viewportTransform;
       if (this.isRendering) {
         fabric.util.cancelAnimFrame(this.isRendering);
@@ -7337,7 +7338,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @param {CanvasRenderingContext2D} ctx Context to render on
      * @param {Array} objects to render
      */
-    _renderObjects: function(ctx, objects) {
+    _renderObjects: function (ctx, objects) {
       var i, len;
       for (i = 0, len = objects.length; i < len; ++i) {
         objects[i] && objects[i].render(ctx);
@@ -7349,7 +7350,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @param {CanvasRenderingContext2D} ctx Context to render on
      * @param {string} property 'background' or 'overlay'
      */
-    _renderBackgroundOrOverlay: function(ctx, property) {
+    _renderBackgroundOrOverlay: function (ctx, property) {
       var object = this[property + 'Color'], v;
       if (object) {
         ctx.fillStyle = object.toLive
@@ -7378,7 +7379,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @private
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
-    _renderBackground: function(ctx) {
+    _renderBackground: function (ctx) {
       this._renderBackgroundOrOverlay(ctx, 'background');
     },
 
@@ -7386,7 +7387,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @private
      * @param {CanvasRenderingContext2D} ctx Context to render on
      */
-    _renderOverlay: function(ctx) {
+    _renderOverlay: function (ctx) {
       this._renderBackgroundOrOverlay(ctx, 'overlay');
     },
 
@@ -7427,7 +7428,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Canvas} thisArg
      * @chainable
      */
-    centerObject: function(object) {
+    centerObject: function (object) {
       var center = this.getCenter();
 
       return this._centerObject(object, new fabric.Point(center.left, center.top));
@@ -7439,7 +7440,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Canvas} thisArg
      * @chainable
      */
-    viewportCenterObject: function(object) {
+    viewportCenterObject: function (object) {
       var vpCenter = this.getVpCenter();
 
       return this._centerObject(object, vpCenter);
@@ -7451,7 +7452,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Canvas} thisArg
      * @chainable
      */
-    viewportCenterObjectH: function(object) {
+    viewportCenterObjectH: function (object) {
       var vpCenter = this.getVpCenter();
       this._centerObject(object, new fabric.Point(vpCenter.x, object.getCenterPoint().y));
       return this;
@@ -7463,7 +7464,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Canvas} thisArg
      * @chainable
      */
-    viewportCenterObjectV: function(object) {
+    viewportCenterObjectV: function (object) {
       var vpCenter = this.getVpCenter();
 
       return this._centerObject(object, new fabric.Point(object.getCenterPoint().x, vpCenter.y));
@@ -7474,9 +7475,9 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Point} vpCenter, viewport center
      * @chainable
      */
-    getVpCenter: function() {
+    getVpCenter: function () {
       var center = this.getCenter(),
-          iVpt = invertTransform(this.viewportTransform);
+        iVpt = invertTransform(this.viewportTransform);
       return transformPoint({ x: center.left, y: center.top }, iVpt);
     },
 
@@ -7487,7 +7488,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @return {fabric.Canvas} thisArg
      * @chainable
      */
-    _centerObject: function(object, center) {
+    _centerObject: function (object, center) {
       object.setPositionByOrigin(center, 'center', 'center');
       object.setCoords();
       this.renderOnAddRemove && this.requestRenderAll();
@@ -7541,10 +7542,10 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _toObjects: function(methodName, propertiesToInclude) {
-      return this.getObjects().filter(function(object) {
+    _toObjects: function (methodName, propertiesToInclude) {
+      return this.getObjects().filter(function (object) {
         return !object.excludeFromExport;
-      }).map(function(instance) {
+      }).map(function (instance) {
         return this._toObject(instance, methodName, propertiesToInclude);
       }, this);
     },
@@ -7552,7 +7553,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _toObject: function(instance, methodName, propertiesToInclude) {
+    _toObject: function (instance, methodName, propertiesToInclude) {
       var originalValue;
 
       if (!this.includeDefaultValues) {
@@ -7570,8 +7571,8 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    __serializeBgOverlay: function(methodName, propertiesToInclude) {
-      var data = { }, bgImage = this.backgroundImage, overlay = this.overlayImage;
+    __serializeBgOverlay: function (methodName, propertiesToInclude) {
+      var data = {}, bgImage = this.backgroundImage, overlay = this.overlayImage;
 
       if (this.backgroundColor) {
         data.background = this.backgroundColor.toObject
@@ -7640,8 +7641,8 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      *   return svg.replace('stroke-dasharray: ; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; ', '');
      * });
      */
-    toSVG: function(options, reviver) {
-      options || (options = { });
+    toSVG: function (options, reviver) {
+      options || (options = {});
 
       var markup = [];
 
@@ -7664,7 +7665,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _setSVGPreamble: function(markup, options) {
+    _setSVGPreamble: function (markup, options) {
       if (options.suppressPreamble) {
         return;
       }
@@ -7678,27 +7679,27 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _setSVGHeader: function(markup, options) {
+    _setSVGHeader: function (markup, options) {
       var width = options.width || this.width,
-          height = options.height || this.height,
-          vpt, viewBox = 'viewBox="0 0 ' + this.width + ' ' + this.height + '" ',
-          NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS;
+        height = options.height || this.height,
+        vpt, viewBox = 'viewBox="0 0 ' + this.width + ' ' + this.height + '" ',
+        NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS;
 
       if (options.viewBox) {
         viewBox = 'viewBox="' +
-                options.viewBox.x + ' ' +
-                options.viewBox.y + ' ' +
-                options.viewBox.width + ' ' +
-                options.viewBox.height + '" ';
+          options.viewBox.x + ' ' +
+          options.viewBox.y + ' ' +
+          options.viewBox.width + ' ' +
+          options.viewBox.height + '" ';
       }
       else {
         if (this.svgViewportTransformation) {
           vpt = this.viewportTransform;
           viewBox = 'viewBox="' +
-                  toFixed(-vpt[4] / vpt[0], NUM_FRACTION_DIGITS) + ' ' +
-                  toFixed(-vpt[5] / vpt[3], NUM_FRACTION_DIGITS) + ' ' +
-                  toFixed(this.width / vpt[0], NUM_FRACTION_DIGITS) + ' ' +
-                  toFixed(this.height / vpt[3], NUM_FRACTION_DIGITS) + '" ';
+            toFixed(-vpt[4] / vpt[0], NUM_FRACTION_DIGITS) + ' ' +
+            toFixed(-vpt[5] / vpt[3], NUM_FRACTION_DIGITS) + ' ' +
+            toFixed(this.width / vpt[0], NUM_FRACTION_DIGITS) + ' ' +
+            toFixed(this.height / vpt[3], NUM_FRACTION_DIGITS) + '" ';
         }
       }
 
@@ -7723,14 +7724,14 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * Creates markup containing SVG referenced elements like patterns, gradients etc.
      * @return {String}
      */
-    createSVGRefElementsMarkup: function() {
+    createSVGRefElementsMarkup: function () {
       var _this = this,
-          markup = ['backgroundColor', 'overlayColor'].map(function(prop) {
-            var fill = _this[prop];
-            if (fill && fill.toLive) {
-              return fill.toSVG(_this, false);
-            }
-          });
+        markup = ['backgroundColor', 'overlayColor'].map(function (prop) {
+          var fill = _this[prop];
+          if (fill && fill.toLive) {
+            return fill.toSVG(_this, false);
+          }
+        });
       return markup.join('');
     },
 
@@ -7741,10 +7742,10 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      * @param {Array} objects Array of fabric objects
      * @return {String}
      */
-    createSVGFontFacesMarkup: function() {
-      var markup = '', fontList = { }, obj, fontFamily,
-          style, row, rowIndex, _char, charIndex, i, len,
-          fontPaths = fabric.fontPaths, objects = this.getObjects();
+    createSVGFontFacesMarkup: function () {
+      var markup = '', fontList = {}, obj, fontFamily,
+        style, row, rowIndex, _char, charIndex, i, len,
+        fontPaths = fabric.fontPaths, objects = this.getObjects();
 
       for (i = 0, len = objects.length; i < len; i++) {
         obj = objects[i];
@@ -7794,7 +7795,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _setSVGObjects: function(markup, reviver) {
+    _setSVGObjects: function (markup, reviver) {
       var instance, i, len, objects = this.getObjects();
       for (i = 0, len = objects.length; i < len; i++) {
         instance = objects[i];
@@ -7808,14 +7809,14 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _setSVGObject: function(markup, instance, reviver) {
+    _setSVGObject: function (markup, instance, reviver) {
       markup.push(instance.toSVG(reviver));
     },
 
     /**
      * @private
      */
-    _setSVGBgOverlayImage: function(markup, property, reviver) {
+    _setSVGBgOverlayImage: function (markup, property, reviver) {
       if (this[property] && !this[property].excludeFromExport && this[property].toSVG) {
         markup.push(this[property].toSVG(reviver));
       }
@@ -7824,9 +7825,9 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _setSVGBgOverlayColor: function(markup, property) {
+    _setSVGBgOverlayColor: function (markup, property) {
       var filler = this[property], vpt = this.viewportTransform, finalWidth = this.width / vpt[0],
-          finalHeight = this.height / vpt[3];
+        finalHeight = this.height / vpt[3];
       if (!filler) {
         return;
       }
@@ -7838,7 +7839,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
           'width="',
           (repeat === 'repeat-y' || repeat === 'no-repeat'
             ? filler.source.width
-            : finalWidth ),
+            : finalWidth),
           '" height="',
           (repeat === 'repeat-x' || repeat === 'no-repeat'
             ? filler.source.height
@@ -7869,7 +7870,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
         return this;
       }
       var activeSelection = this._activeObject,
-          i, obj, objs;
+        i, obj, objs;
       if (object === activeSelection && object.type === 'activeSelection') {
         objs = activeSelection._objects;
         for (i = objs.length; i--;) {
@@ -7898,7 +7899,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
         return this;
       }
       var activeSelection = this._activeObject,
-          i, obj, objs;
+        i, obj, objs;
       if (object === activeSelection && object.type === 'activeSelection') {
         objs = activeSelection._objects;
         for (i = 0; i < objs.length; i++) {
@@ -7931,7 +7932,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
         return this;
       }
       var activeSelection = this._activeObject,
-          i, obj, idx, newIdx, objs, objsMoved = 0;
+        i, obj, idx, newIdx, objs, objsMoved = 0;
 
       if (object === activeSelection && object.type === 'activeSelection') {
         objs = activeSelection._objects;
@@ -7962,7 +7963,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _findNewLowerIndex: function(object, idx, intersecting) {
+    _findNewLowerIndex: function (object, idx, intersecting) {
       var newIdx, i;
 
       if (intersecting) {
@@ -7972,8 +7973,8 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
         for (i = idx - 1; i >= 0; --i) {
 
           var isIntersecting = object.intersectsWithObject(this._objects[i]) ||
-                               object.isContainedWithinObject(this._objects[i]) ||
-                               this._objects[i].isContainedWithinObject(object);
+            object.isContainedWithinObject(this._objects[i]) ||
+            this._objects[i].isContainedWithinObject(object);
 
           if (isIntersecting) {
             newIdx = i;
@@ -8004,7 +8005,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
         return this;
       }
       var activeSelection = this._activeObject,
-          i, obj, idx, newIdx, objs, objsMoved = 0;
+        i, obj, idx, newIdx, objs, objsMoved = 0;
 
       if (object === activeSelection && object.type === 'activeSelection') {
         objs = activeSelection._objects;
@@ -8035,7 +8036,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
     /**
      * @private
      */
-    _findNewUpperIndex: function(object, idx, intersecting) {
+    _findNewUpperIndex: function (object, idx, intersecting) {
       var newIdx, i, len;
 
       if (intersecting) {
@@ -8045,8 +8046,8 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
         for (i = idx + 1, len = this._objects.length; i < len; ++i) {
 
           var isIntersecting = object.intersectsWithObject(this._objects[i]) ||
-                               object.isContainedWithinObject(this._objects[i]) ||
-                               this._objects[i].isContainedWithinObject(object);
+            object.isContainedWithinObject(this._objects[i]) ||
+            this._objects[i].isContainedWithinObject(object);
 
           if (isIntersecting) {
             newIdx = i;
@@ -8085,7 +8086,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
         fabric.util.cancelAnimFrame(this.isRendering);
         this.isRendering = 0;
       }
-      this.forEachObject(function(object) {
+      this.forEachObject(function (object) {
         object.dispose && object.dispose();
       });
       this._objects = [];
@@ -8103,7 +8104,7 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
      */
     toString: function () {
       return '#<fabric.Canvas (' + this.complexity() + '): ' +
-               '{ objects: ' + this.getObjects().length + ' }>';
+        '{ objects: ' + this.getObjects().length + ' }>';
     }
   });
 
@@ -8184,11 +8185,11 @@ fabric.ElementsParser.prototype.checkIfDone = function() {
   fabric.StaticCanvas.prototype.toJSON = fabric.StaticCanvas.prototype.toObject;
 
   if (fabric.isLikelyNode) {
-    fabric.StaticCanvas.prototype.createPNGStream = function() {
+    fabric.StaticCanvas.prototype.createPNGStream = function () {
       var impl = fabric.util.getNodeCanvas(this.lowerCanvasEl);
       return impl && impl.createPNGStream();
     };
-    fabric.StaticCanvas.prototype.createJPEGStream = function(opts) {
+    fabric.StaticCanvas.prototype.createJPEGStream = function (opts) {
       var impl = fabric.util.getNodeCanvas(this.lowerCanvasEl);
       return impl && impl.createJPEGStream(opts);
     };
