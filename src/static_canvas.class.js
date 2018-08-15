@@ -778,10 +778,10 @@
      * @param {fabric.Object} obj Object that was added
      */
     _onObjectCreated: function (obj) {
+      console.log('is it firing');
       // make sure it has properties, and don't fire event if it's a gridLine or text.
       if (obj.hasOwnProperty('properties')
-        && !obj.hasOwnProperty('gridLine')
-        && !obj.hasOwnProperty('text')) {
+        && !obj.hasOwnProperty('gridLine')) {
         this._fire('object:created', { target: obj });
         obj.fire('created');
       }
